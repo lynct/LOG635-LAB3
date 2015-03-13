@@ -4,7 +4,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		Parser parser = new Parser();
+		DataReader parser = new DataReader();
 		parser.run();
 
 	}
