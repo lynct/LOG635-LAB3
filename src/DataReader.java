@@ -3,11 +3,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
  
 public class DataReader {
  
  
-  public Player[] run() {
+  public ArrayList<Player> run() {
  
 	String csvFile = "Donnees_sources.csv";
 	
@@ -16,13 +17,12 @@ public class DataReader {
 	String line = "";
 	String cvsSplitBy = ",";
 	
-	Player[] data = null;
-	int count = 0;
+	
  
 	try {
  
 		br = new BufferedReader(new FileReader(csvFile));
-		
+		ArrayList<Player> data = new ArrayList();
 		
 		br.readLine(); //Lecture de la premiere ligne incluant les titres des colonnes
 		while ((line = br.readLine()) != null) {
@@ -58,9 +58,10 @@ public class DataReader {
 					Float.parseFloat(player[12]) , Float.parseFloat(player[13]) , Float.parseFloat(player[14]) , Float.parseFloat(player[15]) , Float.parseFloat(player[16]) , 
 					Float.parseFloat(player[17]) , Float.parseFloat(player[18]) , Float.parseFloat(player[19]) );
 			
-			data[count] = p;
+			data.add(p);
 			
-			count++;
+		
+			
 			
 					
 			/*
@@ -90,6 +91,8 @@ public class DataReader {
 					*/
  
 		}
+		
+		return data;
  
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
@@ -106,7 +109,8 @@ public class DataReader {
 	}
  
 	System.out.println("Done");
-	return data;
+	return null;
+	
   }
  
 }
