@@ -5,7 +5,9 @@ public class Main {
 		// TODO Auto-generated method stub
 		
 		DataReader parser = new DataReader();
-		parser.run();
+		Player[] data = parser.run();
+		
+		
 
 	}
 

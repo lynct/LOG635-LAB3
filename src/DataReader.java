@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class DataReader {
  
  
-  public void run() {
+  public Player[] run() {
  
 	String csvFile = "Donnees_sources.csv";
 	
@@ -15,6 +15,9 @@ public class DataReader {
 	BufferedReader br = null;
 	String line = "";
 	String cvsSplitBy = ",";
+	
+	Player[] data = null;
+	int count = 0;
  
 	try {
  
@@ -32,11 +35,18 @@ public class DataReader {
 			
 			for(int k=0; k<player.length;k++){
 				
+				//Ne fonctionne pas. Remplacé par player[k].replace("?", "-1");
+				/*
 				if(player[k].equals("?")){
 					player[k] = "-1";
 				}
+				*/
 				
-				player[k] = new BigDecimal(player[k].toUpperCase()).toPlainString();
+				//On nettoie les données
+				player[k] = player[k].replace("\"", "");
+				player[k] = player[k].replace("?", "-1");
+				
+				player[k] = new BigDecimal(player[k]).toPlainString();
 			}
 						
 			
@@ -48,6 +58,12 @@ public class DataReader {
 					Float.parseFloat(player[12]) , Float.parseFloat(player[13]) , Float.parseFloat(player[14]) , Float.parseFloat(player[15]) , Float.parseFloat(player[16]) , 
 					Float.parseFloat(player[17]) , Float.parseFloat(player[18]) , Float.parseFloat(player[19]) );
 			
+			data[count] = p;
+			
+			count++;
+			
+					
+			/*
 			System.out.println("Player ["
 					+ "GameID= " + player[0]  
 					+ " , LeagueIndex=" + player[1] 
@@ -70,6 +86,8 @@ public class DataReader {
 					+ " , ComplexUnitsMade=" + player[18]
 					+ " , ComplexAbilitiesUsed=" + player[19] 
 					+ "]");
+					
+					*/
  
 		}
  
@@ -88,6 +106,7 @@ public class DataReader {
 	}
  
 	System.out.println("Done");
+	return data;
   }
  
 }
