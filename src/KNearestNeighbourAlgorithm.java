@@ -12,7 +12,7 @@ public class KNearestNeighbourAlgorithm {
 	ArrayList<Player> test;
 	
 	private final int ENTRIES = 6; //# of attributes we are evaluating
-	
+		
 	
 	public KNearestNeighbourAlgorithm(ArrayList<Player> data, ArrayList<Player> test){
 		this.data = data;
@@ -84,5 +84,4 @@ public class KNearestNeighbourAlgorithm {
 		return neighbors;
 	}
 	
-
 }
