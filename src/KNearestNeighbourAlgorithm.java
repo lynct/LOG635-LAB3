@@ -59,18 +59,8 @@ public final class KNearestNeighbourAlgorithm {
 	 */
 	public static ArrayList<Result> getNearestNeighbors(ArrayList<Result> distances) {
 		
-		//Sorting by distance ASC
-		Collections.sort(distances, new Comparator<Result>() {
-	     
-			@Override
-			public int compare(Result result1, Result result2) {
-
-				return Float.compare(result1.getDistance(),result2.getDistance());
-				
-			}
-	    });
-			
-	
+		Collections.sort(distances);
+		
 		ArrayList<Result> neighbors = new ArrayList<Result>();
 		
 		for(int i = 0; i < K; i++) {

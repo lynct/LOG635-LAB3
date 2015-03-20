@@ -9,10 +9,11 @@ public class Main {
 		ArrayList<Player>[] data = parser.run();
 		ArrayList<Result> resultList = new ArrayList<Result>();
 		
-		int total=0, nbCorrect=0, nbIncorrect=0;
+		int total=0, nbCorrect=0, nbIncorrect=0;	//statistics variables
 		
 		//Loop through all the test players to find their league.
 		for(int i=0; i<data[1].size(); i++){
+				
 			Player p = data[1].get(i);
 			
 			resultList = KNearestNeighbourAlgorithm.generateResultingDistance(data[0], p);
@@ -34,6 +35,7 @@ public class Main {
 		System.out.println("Incorrect: " + String.valueOf(nbIncorrect));
 
 		System.out.println("% Good: " + String.valueOf((double)nbCorrect/(double)total));
+		
 	}
 
 }
