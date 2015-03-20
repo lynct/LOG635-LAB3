@@ -8,39 +8,32 @@ import java.util.ArrayList;
 public class DataReader {
  
  
-  public ArrayList<Player> run() {
+  public ArrayList<Player>[] run() {
  
 	String csvFile = "Donnees_sources.csv";
-	
-	
 	BufferedReader br = null;
 	String line = "";
 	String cvsSplitBy = ",";
+	int lineCounter = 0;
+	ArrayList<Player>[] data = new ArrayList[2];
 	
-	
- 
 	try {
  
 		br = new BufferedReader(new FileReader(csvFile));
-		ArrayList<Player> data = new ArrayList();
+		ArrayList<Player> dataForTraining = new ArrayList();
+		ArrayList<Player> dataForTest = new ArrayList();
 		
 		br.readLine(); //Lecture de la premiere ligne incluant les titres des colonnes
 		while ((line = br.readLine()) != null) {
  
-		        // use comma as separator
+			lineCounter++;
+			
+		    // use comma as separator
 			String[] player = line.split(cvsSplitBy);
  
 			int[] playerInt = new int[player.length];
 			
-			
 			for(int k=0; k<player.length;k++){
-				
-				//Ne fonctionne pas. Remplacé par player[k].replace("?", "-1");
-				/*
-				if(player[k].equals("?")){
-					player[k] = "-1";
-				}
-				*/
 				
 				//On nettoie les données
 				player[k] = player[k].replace("\"", "");
@@ -58,39 +51,17 @@ public class DataReader {
 					Float.parseFloat(player[12]) , Float.parseFloat(player[13]) , Float.parseFloat(player[14]) , Float.parseFloat(player[15]) , Float.parseFloat(player[16]) , 
 					Float.parseFloat(player[17]) , Float.parseFloat(player[18]) , Float.parseFloat(player[19]) );
 			
-			data.add(p);
-			
-		
-			
-			
-					
-			/*
-			System.out.println("Player ["
-					+ "GameID= " + player[0]  
-					+ " , LeagueIndex=" + player[1] 
-					+ " , Age=" + player[2]
-					+ " , HoursPerWeek=" + player[3] 
-					+ " , TotalHours=" + player[4]
-					+ " , APM=" + player[5] 			
-					+ " , SelectByHotKeys=" + player[6] 			
-					+ " , AssignToHotkeys=" + player[7] 			
-					+ " , UniqueHotkeys=" + player[8] 			
-					+ " , MinimapAttacks=" + player[9] 			
-					+ " , MinimapRightClicks=" + player[10] 			
-					+ " , NumberOfPACs=" + player[11] 			
-					+ " , GapBetweenPACs=" + player[12] 			
-					+ " , ActionLatency=" + player[13] 			
-					+ " , ActionsInPAC=" + player[14] 						
-					+ " , TotalMapExplored=" + player[15]
-					+ " , WorkersMade=" + player[16]
-					+ " , UniqueUnitsMade=" + player[17]
-					+ " , ComplexUnitsMade=" + player[18]
-					+ " , ComplexAbilitiesUsed=" + player[19] 
-					+ "]");
-					
-					*/
+			if(((lineCounter/5) % 2) == 0){
+				dataForTraining.add(p);
+			}
+			else{
+				dataForTest.add(p);
+			}
  
 		}
+		
+		data[0] = dataForTraining;
+		data[1] = dataForTest;
 		
 		return data;
  

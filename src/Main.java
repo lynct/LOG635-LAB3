@@ -7,11 +7,11 @@ public class Main {
 		// TODO Auto-generated method stub
 		
 		DataReader parser = new DataReader();
-		ArrayList<Player> data = parser.run();
+		ArrayList<Player>[] data = parser.run();
 		
 		Kmeans k = new Kmeans();
 		
-		k.cluster(data);
+		//k.cluster(data);
 		
 
 	}
