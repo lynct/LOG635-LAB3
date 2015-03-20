@@ -25,8 +25,6 @@ public class DataReader {
 		
 		br.readLine(); //Lecture de la premiere ligne incluant les titres des colonnes
 		while ((line = br.readLine()) != null) {
- 
-			lineCounter++;
 			
 		    // use comma as separator
 			String[] player = line.split(cvsSplitBy);
@@ -58,6 +56,7 @@ public class DataReader {
 				dataForTest.add(p);
 			}
  
+			lineCounter++;
 		}
 		
 		data[0] = dataForTraining;

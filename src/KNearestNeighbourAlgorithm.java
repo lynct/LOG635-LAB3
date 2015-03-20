@@ -5,33 +5,27 @@ import java.util.HashMap;
 import java.util.Set;
 
 
-public class KNearestNeighbourAlgorithm {
+public final class KNearestNeighbourAlgorithm {
 	
-	public static final int K = 70; 			//The number of nearest neighbors
+	public static final int K = 75; 			//The number of nearest neighbors
 	public static double averageDistance = 0;	//The average distance for all data
 	
-	ArrayList<Player> data;
-	ArrayList<Player> test;
-	
-	private final int ENTRIES = 6; //# of attributes we are evaluating
-		
-	
-	public KNearestNeighbourAlgorithm(ArrayList<Player> data, ArrayList<Player> test){
-		this.data = data;
-		this.test = test;
-	}
+	ArrayList<Player> data;						//Training data used to find the player league
 
-	public ArrayList<Result> generateResultingDistance(){
+	/**
+	 * Generates the results list with the distance to each training players
+	 * @param data		Training data
+	 * @param player	Player to find the league
+	 * @return
+	 */
+	public static ArrayList<Result> generateResultingDistance(ArrayList<Player> data, Player player){
 		
 		ArrayList<Result> resultList = new ArrayList<Result>();
-		
-		//testing player 1
-		Player playerTest = test.get(0);
 		
 		for(int i = 0; i < data.size(); i++){
 			Player playerData = data.get(i);
 			
-			float distance = calculateDistance(playerData, playerTest);
+			float distance = calculateDistance(playerData, player);
 			
 			Result result = new Result(playerData.getLeague(), distance);
 			resultList.add(result);
@@ -43,14 +37,14 @@ public class KNearestNeighbourAlgorithm {
 	/****
 	 * Calculate the distance between selected 6 attributes
 	 ******/
-	public float calculateDistance(Player p1, Player p2){
+	private static float calculateDistance(Player p1, Player p2){
 		
 		float[] attributeP1 = p1.getAttributes();
 		float[] attributeP2 = p2.getAttributes();
-		
+		int length = attributeP1.length;
 		float distance = 0;
 		
-		for(int i = 0; i < ENTRIES; i++ ){
+		for(int i = 0; i < length; i++ ){
 			distance += Math.pow(attributeP1[i] - attributeP2[i], 2);
 		}
 		
@@ -63,7 +57,7 @@ public class KNearestNeighbourAlgorithm {
 	 * @param distances
 	 * @return
 	 */
-	public static ArrayList getNearestNeighbors(ArrayList<Result> distances) {
+	public static ArrayList<Result> getNearestNeighbors(ArrayList<Result> distances) {
 		
 		//Sorting by distance ASC
 		Collections.sort(distances, new Comparator<Result>() {
@@ -86,6 +80,11 @@ public class KNearestNeighbourAlgorithm {
 		return neighbors;
 	}
 	
+	/**
+	 * Get the league based on the league value of the K nearest neighbors
+	 * @param results
+	 * @return
+	 */
 	public static int findMajority(ArrayList<Result> results){
 		
 		HashMap<Integer, Integer> dict = new HashMap<Integer, Integer>();
@@ -100,15 +99,19 @@ public class KNearestNeighbourAlgorithm {
         }
  
         int maxMode = 0;						//league presente le plus de fois dans les X plus proches voisins
-	    int maxCount = 0;						//nombre d'occurence d'uen league
+	    int maxCount = 0;						//nombre d'occurence d'une league
 	    Set<Integer> keys = dict.keySet();
 	    
-	    for(int d : keys) {
-	        int tCount = dict.get(d);
-	        if(tCount > maxCount) {
-	            maxCount = tCount;
-	            maxMode = d;
+	    for(int k : keys) {
+	        int counter = dict.get(k);
+	        
+	        if(counter > maxCount) {				//on garde la league qui a le plus d'occurence
+	            maxCount = counter;
+	            maxMode = k;
 	        }
+	        //else if(counter == maxCount){
+	        //	System.out.println("EGALITE");
+	        //}
 	    }
 	    
 	    return maxMode;

@@ -214,7 +214,13 @@ public class Player {
 	 * @return float[] contenant les attributs a comparer
 	 */
 	public float[] getAttributes(){
-		return new float[]{apm, selectByHotkeys, assignToHotkeys, uniqueHotkeys, minimapAttacks, minimapRightClicks};
+		//return new float[]{apm, selectByHotkeys, assignToHotkeys, uniqueHotkeys, minimapAttacks, minimapRightClicks};
+		return new float[]{apm, selectByHotkeys, assignToHotkeys, uniqueHotkeys, minimapAttacks, minimapRightClicks, numberOfPACs, 
+							gapBetweenPACs, 
+							actionLatency, 
+							actionsInPAC, 
+							totalMapExplored, 
+							workersMade};
 	}
 
 }
