@@ -210,15 +210,15 @@ public class Player {
 	}
 	
 	/**
-	 * 
+	 * Return the attributes array used to find the player's league.
 	 * @return float[] contenant les attributs a comparer
 	 */
 	public float[] getAttributes(){
-		return new float[]{assignToHotkeys, 
+		return new float[]{	assignToHotkeys,
 							uniqueHotkeys, 
 							numberOfPACs, 
 							gapBetweenPACs, 
-							actionLatency, 
+							actionLatency,
 							actionsInPAC};
 	}
 

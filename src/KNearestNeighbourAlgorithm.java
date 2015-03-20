@@ -7,7 +7,7 @@ import java.util.Set;
 
 public final class KNearestNeighbourAlgorithm {
 	
-	public static final int K = 75; 			//The number of nearest neighbors
+	public static final int K = 35; 			//The number of nearest neighbors
 	public static double averageDistance = 0;	//The average distance for all data
 	
 	ArrayList<Player> data;						//Training data used to find the player league
@@ -77,34 +77,49 @@ public final class KNearestNeighbourAlgorithm {
 	 */
 	public static int findMajority(ArrayList<Result> results){
 		
-		HashMap<Integer, Integer> dict = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> dict = new HashMap<Integer, Integer>();		//contient le nombre d'occurence de chaque league
+		HashMap<Integer, Float> sumDistance = new HashMap<Integer, Float>();	//contient la somme des distances pour chaque league
 		
-        for(int i = 0; i < results.size(); i++) {
-            int d = results.get(i).getLeague();
+        for(int i=0; i<results.size(); i++) {
+            int league = results.get(i).getLeague();
+            float distance = results.get(i).getDistance();
  
-            if(dict.containsKey(d))
-                dict.put(d, dict.get(d)+1);		//on incremente de 1 si la league est deja presente
-        else
-            dict.put(d, 1);					//on ajoute la nouvelle league dans le dictionnaire
+            if(dict.containsKey(league))
+                dict.put(league, dict.get(league)+1);		//on incremente de 1 si la league est deja presente
+	        else
+	            dict.put(league, 1);						//on ajoute la nouvelle league dans le dictionnaire
+            
+            if(sumDistance.containsKey(league))
+            	sumDistance.put(league, sumDistance.get(league)+distance);
+	        else
+	        	sumDistance.put(league, distance);
         }
  
-        int maxMode = 0;						//league presente le plus de fois dans les X plus proches voisins
-	    int maxCount = 0;						//nombre d'occurence d'une league
+        int league = 0;						//league presente le plus de fois dans les X plus proches voisins
+	    int maxCount = 0;					//nombre d'occurence d'une league
+	    float bestDistance = 0;
 	    Set<Integer> keys = dict.keySet();
 	    
 	    for(int k : keys) {
-	        int counter = dict.get(k);
+	        int counter = dict.get(k);				//nombre d'occurence de la league presente
+        	float distance = sumDistance.get(k);
 	        
 	        if(counter > maxCount) {				//on garde la league qui a le plus d'occurence
 	            maxCount = counter;
-	            maxMode = k;
+	            league = k;
+	            bestDistance = distance;
 	        }
-	        //else if(counter == maxCount){
-	        //	System.out.println("EGALITE");
-	        //}
+	        else if(counter == maxCount){			//si le nombre d'occurence est le meme, on prend lui avec la plus courte distance total de tous les voisins
+	        	if(distance < bestDistance){
+	        		maxCount = counter;
+		            league = k;
+		            bestDistance = distance;
+	        	}
+	        	//System.out.println("EGALITE");
+	        }
 	    }
 	    
-	    return maxMode;
+	    return league;
 	}
 
 }
