@@ -208,5 +208,13 @@ public class Player {
 	public void setComplexAbilitiesUsed(float complexAbilitiesUsed) {
 		this.complexAbilitiesUsed = complexAbilitiesUsed;
 	}
+	
+	/**
+	 * 
+	 * @return float[] contenant les attributs a comparer
+	 */
+	public float[] getAttributes(){
+		return new float[]{apm, selectByHotkeys, assignToHotkeys, uniqueHotkeys, minimapAttacks, minimapRightClicks};
+	}
 
 }

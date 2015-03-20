@@ -11,7 +11,7 @@ public class Main {
 		
 		Kmeans k = new Kmeans();
 		
-		//k.cluster(data);
+		k.cluster(data[0]);
 		
 
 	}
