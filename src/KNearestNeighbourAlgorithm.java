@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Set;
 
 
 public class KNearestNeighbourAlgorithm {
@@ -84,4 +86,32 @@ public class KNearestNeighbourAlgorithm {
 		return neighbors;
 	}
 	
+	public static int findMajority(ArrayList<Result> results){
+		
+		HashMap<Integer, Integer> dict = new HashMap<Integer, Integer>();
+		
+        for(int i = 0; i < results.size(); i++) {
+            int d = results.get(i).getLeague();
+ 
+            if(dict.containsKey(d))
+                dict.put(d, dict.get(d)+1);		//on incremente de 1 si la league est deja presente
+        else
+            dict.put(d, 1);					//on ajoute la nouvelle league dans le dictionnaire
+        }
+ 
+        int maxMode = 0;						//league presente le plus de fois dans les X plus proches voisins
+	    int maxCount = 0;						//nombre d'occurence d'uen league
+	    Set<Integer> keys = dict.keySet();
+	    
+	    for(int d : keys) {
+	        int tCount = dict.get(d);
+	        if(tCount > maxCount) {
+	            maxCount = tCount;
+	            maxMode = d;
+	        }
+	    }
+	    
+	    return maxMode;
+	}
+
 }
