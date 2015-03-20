@@ -1,5 +1,8 @@
+import java.util.Collections;
+import java.util.Comparator;
 
-public class Result{
+
+public class Result implements Comparator {
 	int league;
 	float distance;
 	
@@ -15,4 +18,11 @@ public class Result{
 	public float getDistance(){
 		return distance;
 	}
+
+	@Override
+	public int compare(Object result1, Object result2) {
+		return Float.compare(((Result) result1).getDistance(),((Result) result2).getDistance());
+	
+	}
+	
 }
