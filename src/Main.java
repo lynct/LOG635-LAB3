@@ -9,9 +9,11 @@ public class Main {
 		DataReader parser = new DataReader();
 		ArrayList<Player>[] data = parser.run();
 		
-		Kmeans k = new Kmeans();
+		KNearestNeighbourAlgorithm k = new KNearestNeighbourAlgorithm(data[0], data[1]);
 		
-		k.cluster(data[0]);
+		k.generateResultingDistance();
+		
+		//k.cluster(data[0]);
 		
 
 	}
