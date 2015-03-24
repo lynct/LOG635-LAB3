@@ -214,12 +214,14 @@ public class Player {
 	 * @return float[] contenant les attributs a comparer
 	 */
 	public float[] getAttributes(){
-		return new float[]{	assignToHotkeys,
-							uniqueHotkeys, 
+		return new float[]{	apm,
+							selectByHotkeys,
+							assignToHotkeys,
+							uniqueHotkeys,
+							minimapAttacks,
 							numberOfPACs, 
 							gapBetweenPACs, 
-							actionLatency,
-							actionsInPAC};
+							actionLatency};
 	}
 
 }
