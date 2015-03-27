@@ -9,23 +9,24 @@ public final class DataReader {
  
 	/**
 	 * Read all the data in the files.
-	 * @param training		Is it training data?
-	 * @param readAll		Do we want to read all the data? set to true for training data during the evaluation
-	 * @return
+	 * @param isTraining		Is it training data?
+	 * @param isEvaluation		Is it evaluation data?
+	 * @param isReadAll		If false, read 5 lines and skip 5 until the end of the file.
+	 * @return	ArrayList<Player> ArrayList containing all the players and their values from the file
 	 */
-	public static ArrayList<Player>[] run(String csvFile, boolean isTraining, boolean isReadAll) {
+	public static ArrayList<Player> run(String csvFile, boolean isTraining, boolean isEvaluation, boolean isReadAll) {
  
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";
 		int lineCounter = 0;
-		ArrayList<Player>[] data = new ArrayList[2];
+		ArrayList<Player> data = new ArrayList<Player>();
+		//Used to determine if we add the player to the ArrayList or not. depending if we are reading a training file or not.
+		int validLine = isTraining ? 0 : (isEvaluation ? 1 : 0);
 		
 		try {
 	 
 			br = new BufferedReader(new FileReader(csvFile));
-			ArrayList<Player> dataForTraining = new ArrayList<Player>();
-			ArrayList<Player> dataForTest = new ArrayList<Player>();
 			
 			br.readLine(); //Lecture de la premiere ligne incluant les titres des colonnes
 			while ((line = br.readLine()) != null) {
@@ -46,41 +47,38 @@ public final class DataReader {
 				
 				//Training data
 				if(isTraining){
-					p = new Player(Integer.parseInt(player[0]), Integer.parseInt(player[1]), Integer.parseInt(player[2]), Integer.parseInt(player[3]),
-							Integer.parseInt(player[4]), Float.parseFloat(player[5]) , Float.parseFloat(player[6]) ,Float.parseFloat(player[7]) , 
+					float[] attributes = {Float.parseFloat(player[5]) , Float.parseFloat(player[6]) ,Float.parseFloat(player[7]) , 
 							Float.parseFloat(player[8]) , Float.parseFloat(player[9]) , Float.parseFloat(player[10]) , Float.parseFloat(player[11]) , 
 							Float.parseFloat(player[12]) , Float.parseFloat(player[13]) , Float.parseFloat(player[14]) , Float.parseFloat(player[15]) , Float.parseFloat(player[16]) , 
-							Float.parseFloat(player[17]) , Float.parseFloat(player[18]) , Float.parseFloat(player[19]) );
+							Float.parseFloat(player[17]) , Float.parseFloat(player[18]) , Float.parseFloat(player[19])};
+					
+					p = new Player(Integer.parseInt(player[0]), Integer.parseInt(player[1]), Integer.parseInt(player[2]), Integer.parseInt(player[3]),
+							Integer.parseInt(player[4]),  attributes);
 				}
 				//Evaluation data
 				else{
 					//La colonne LeagueIndex (player[1]) ne sera pas présente dans le fichier estimation.csv
-					p = new Player(Integer.parseInt(player[0]), 0, Integer.parseInt(player[1]), Integer.parseInt(player[2]), Integer.parseInt(player[3]),
-							Float.parseFloat(player[4]), Float.parseFloat(player[5]) , Float.parseFloat(player[6]) ,Float.parseFloat(player[7]) , 
+					float[] attributes = {Float.parseFloat(player[4]), Float.parseFloat(player[5]) , Float.parseFloat(player[6]) ,Float.parseFloat(player[7]) , 
 							Float.parseFloat(player[8]) , Float.parseFloat(player[9]) , Float.parseFloat(player[10]) , Float.parseFloat(player[11]) , 
 							Float.parseFloat(player[12]) , Float.parseFloat(player[13]) , Float.parseFloat(player[14]) , Float.parseFloat(player[15]) , Float.parseFloat(player[16]) , 
-							Float.parseFloat(player[17]) , Float.parseFloat(player[18]) );
+							Float.parseFloat(player[17]) , Float.parseFloat(player[18])};
+					
+					p = new Player(Integer.parseInt(player[0]), 0, Integer.parseInt(player[1]), Integer.parseInt(player[2]), Integer.parseInt(player[3]), attributes);
 				}
 				
+				//When it is for practice (isReadAll == false), we read 5 lines and skip 5 until we reach the end of the file.
 				if(!isReadAll){
-					if(((lineCounter/5) % 2) == 0){
-						dataForTraining.add(p);
-					}
-					else{
-						dataForTest.add(p);
+					if(((lineCounter/5) % 2) == validLine){
+						data.add(p);
 					}
 				}
+				//Otherwise we add all the players to the ArrayList.
 				else{
-					dataForTraining.add(p);
+					data.add(p);
 				}
 	 
 				lineCounter++;
 			}
-			
-			data[0] = dataForTraining;
-			data[1] = dataForTest;
-			
-			return data;
 	 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -95,10 +93,7 @@ public final class DataReader {
 				}
 			}
 		}
-	 
-		System.out.println("Done");
-		return null;
-	
+		
+		return data;
 	}
- 
 }

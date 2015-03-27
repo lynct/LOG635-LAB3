@@ -38,8 +38,8 @@ public final class KNearestNeighbourAlgorithm {
 	 ******/
 	private static float calculateDistance(Player p1, Player p2){
 		
-		float[] attributeP1 = p1.getAttributes();
-		float[] attributeP2 = p2.getAttributes();
+		float[] attributeP1 = p1.getKNNAttributes();
+		float[] attributeP2 = p2.getKNNAttributes();
 		int length = attributeP1.length;
 		float distance = 0;
 		
@@ -52,9 +52,8 @@ public final class KNearestNeighbourAlgorithm {
 	
 	/**
 	 * Get the K number nearest neighbors
-	 * 
-	 * @param distances
-	 * @return
+	 * @param distances	ArrayList of the all the distances.
+	 * @return	ArrayList with K nearest neighbors.
 	 */
 	public static ArrayList<Result> getNearestNeighbors(ArrayList<Result> distances) {
 		
@@ -71,8 +70,8 @@ public final class KNearestNeighbourAlgorithm {
 	
 	/**
 	 * Get the league based on the league value of the K nearest neighbors
-	 * @param results
-	 * @return
+	 * @param results ArrayList of the K nearest neighbors.
+	 * @return League	The predicted league.
 	 */
 	public static int findMajority(ArrayList<Result> results){
 		
@@ -114,7 +113,6 @@ public final class KNearestNeighbourAlgorithm {
 		            league = k;
 		            bestDistance = distance;
 	        	}
-	        	//System.out.println("EGALITE");
 	        }
 	    }
 	    

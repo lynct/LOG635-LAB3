@@ -1,52 +1,24 @@
 
 public class Player {
 	
+	private int NBATTRIBUTES = 15;
 	private int gamerId;
 	private int league;	
 	private int age;
 	private int hoursPerWeek;
-	private int totalHours;
-	private float apm;
-	private float selectByHotkeys;
-	private float assignToHotkeys;
-	private float uniqueHotkeys;
-	private float minimapAttacks;
-	private float minimapRightClicks;
-	private float numberOfPACs;
-	private float gapBetweenPACs;
-	private float actionLatency;
-	private float actionsInPAC;
-	private float totalMapExplored;
-	private float workersMade;
-	private float uniqueUnitsMade;
-	private float complexUnitsMade;
-	private float complexAbilitiesUsed;
-
-	public Player(int gamerId, int league, int age, int hoursPerWeek, int totalHours, float apm, float selectByHotkeys, float assignToHotkeys,
-			float uniqueHotkeys, float minimapAttacks, float minimapRightClicks, float numberOfPACs, float gapBetweenPACs, float actionLatency, float actionsInPAC,
-			float totalMapExplored, float workersMade, float uniqueUnitsMade, float complexUnitsMade, float complexAbilitiesUsed){
+	private int totalHours;	
+	private float[] attributes;
+	private float[] scaledAttributes;
+	
+	public Player(int gamerId, int league, int age, int hoursPerWeek, int totalHours, float[] newAttributes){
 		
 		this.gamerId = gamerId;
 		this.league = league;
 		this.age = age;
 		this.hoursPerWeek = hoursPerWeek;
 		this.totalHours = totalHours;
-		this.apm = apm;
-		this.selectByHotkeys = selectByHotkeys;
-		this.assignToHotkeys = assignToHotkeys;
-		this.uniqueHotkeys = uniqueHotkeys;
-		this.minimapAttacks = minimapAttacks;
-		this.minimapRightClicks = minimapRightClicks;
-		this.numberOfPACs = numberOfPACs;
-		this.gapBetweenPACs = gapBetweenPACs;
-		this.actionLatency = actionLatency;
-		this.actionsInPAC = actionsInPAC;
-		this.totalMapExplored = totalMapExplored;
-		this.workersMade = workersMade;
-		this.uniqueUnitsMade = uniqueUnitsMade;
-		this.complexUnitsMade = complexUnitsMade;
-		this.complexAbilitiesUsed = complexAbilitiesUsed;
-		
+		this.attributes = newAttributes;		
+		this.scaledAttributes = new float[NBATTRIBUTES];		
 	}
 
 	public int getGamerId() {
@@ -88,140 +60,33 @@ public class Player {
 	public void setTotalHours(int totalHours) {
 		this.totalHours = totalHours;
 	}
-
-	public float getApm() {
-		return apm;
-	}
-
-	public void setApm(float apm) {
-		this.apm = apm;
-	}
-
-	public float getSelectByHotkeys() {
-		return selectByHotkeys;
-	}
-
-	public void setSelectByHotkeys(float selectByHotkeys) {
-		this.selectByHotkeys = selectByHotkeys;
-	}
-
-	public float getAssignToHotkeys() {
-		return assignToHotkeys;
-	}
-
-	public void setAssignToHotkeys(float assignToHotkeys) {
-		this.assignToHotkeys = assignToHotkeys;
-	}
-
-	public float getUniqueHotkeys() {
-		return uniqueHotkeys;
-	}
-
-	public void setUniqueHotkeys(float uniqueHotkeys) {
-		this.uniqueHotkeys = uniqueHotkeys;
-	}
-
-	public float getMinimapAttacks() {
-		return minimapAttacks;
-	}
-
-	public void setMinimapAttacks(float minimapAttacks) {
-		this.minimapAttacks = minimapAttacks;
-	}
-
-	public float getMinimapRightClicks() {
-		return minimapRightClicks;
-	}
-
-	public void setMinimapRightClicks(float minimapRightClicks) {
-		this.minimapRightClicks = minimapRightClicks;
-	}
-
-	public float getNumberOfPACs() {
-		return numberOfPACs;
-	}
-
-	public void setNumberOfPACs(float numberOfPACs) {
-		this.numberOfPACs = numberOfPACs;
-	}
-
-	public float getGapBetweenPACs() {
-		return gapBetweenPACs;
-	}
-
-	public void setGapBetweenPACs(float gapBetweenPACs) {
-		this.gapBetweenPACs = gapBetweenPACs;
-	}
-
-	public float getActionLatency() {
-		return actionLatency;
-	}
-
-	public void setActionLatency(float actionLatency) {
-		this.actionLatency = actionLatency;
-	}
-
-	public float getActionsInPAC() {
-		return actionsInPAC;
-	}
-
-	public void setActionsInPAC(float actionsInPAC) {
-		this.actionsInPAC = actionsInPAC;
-	}
-
-	public float getTotalMapExplored() {
-		return totalMapExplored;
-	}
-
-	public void setTotalMapExplored(float totalMapExplored) {
-		this.totalMapExplored = totalMapExplored;
-	}
-
-	public float getWorkersMade() {
-		return workersMade;
-	}
-
-	public void setWorkersMade(float workersMade) {
-		this.workersMade = workersMade;
-	}
-
-	public float getUniqueUnitsMade() {
-		return uniqueUnitsMade;
-	}
-
-	public void setUniqueUnitsMade(float uniqueUnitsMade) {
-		this.uniqueUnitsMade = uniqueUnitsMade;
-	}
-
-	public float getComplexUnitsMade() {
-		return complexUnitsMade;
-	}
-
-	public void setComplexUnitsMade(float complexUnitsMade) {
-		this.complexUnitsMade = complexUnitsMade;
-	}
-
-	public float getComplexAbilitiesUsed() {
-		return complexAbilitiesUsed;
-	}
-
-	public void setComplexAbilitiesUsed(float complexAbilitiesUsed) {
-		this.complexAbilitiesUsed = complexAbilitiesUsed;
-	}
 	
 	/**
 	 * Return the attributes array used to find the player's league.
 	 * @return float[] contenant les attributs a comparer
 	 */
+	public float[] getKNNAttributes(){
+		return new float[]{scaledAttributes[0], 
+						   scaledAttributes[1],
+						   scaledAttributes[2],
+						   scaledAttributes[3],
+						   scaledAttributes[4],
+						   scaledAttributes[6],
+						   scaledAttributes[7],
+						   scaledAttributes[8],
+						   scaledAttributes[11]};
+	}
+	
+	public void setScaledAttribute(int index, float value){
+		scaledAttributes[index] = value;
+	}
+	
 	public float[] getAttributes(){
-		return new float[]{	apm,
-							selectByHotkeys,
-							assignToHotkeys,
-							uniqueHotkeys,
-							minimapAttacks,
-							numberOfPACs, 
-							gapBetweenPACs, 
-							actionLatency};
+		return attributes.clone();
+	}
+	
+	public float getAttribute(int index){
+		return attributes[index];
 	}
 
 }

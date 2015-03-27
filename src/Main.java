@@ -9,28 +9,25 @@ public class Main {
 		 * CHANGER isTraining A FALSE POUR EVALUATION.
 		 *****************************************************/
 		boolean isTraining = true;
-		ArrayList<Player>[] dataTraining = DataReader.run("Donnees_sources.csv", true, false);
-		ArrayList<Player>[] dataEvaluation = DataReader.run("evaluation.csv", false, true);
+		int total=0, nbCorrect=0, nbIncorrect=0;	//statistics variables
+		//Reading players information from file
+		ArrayList<Player> dataTraining = DataReader.run("Donnees_sources.csv", true, false, false);
+		ArrayList<Player> dataEvaluation = DataReader.run("Donnees_sources.csv", true, true, false);
+		/*
+		ArrayList<Player> dataTraining = DataReader.run("Donnees_sources.csv", true, false, true);
+		ArrayList<Player> dataEvaluation = DataReader.run("evaluation.csv", false, true, true);
+		*/
 		ArrayList<Result> resultList = new ArrayList<Result>();
 		
-		int total=0, nbCorrect=0, nbIncorrect=0;	//statistics variables
-		
-		/*****************************************************
-		 * REMPLACER LE COMMENTAIRE SUIVANT POUR L'EVALUATION
-		 * ET COMMENTER L'AUTRE "FOR".
-		 *****************************************************/
-		/*
-		for(int i=0; i<dataEvaluation[0].size(); i++){
-			
-			Player p = dataEvaluation[0].get(i);
-		*/
+		//Scaling the players values
+		DataScaler.scale(dataTraining, dataEvaluation);
 		
 		//Loop through all the test players to find their league.
-		for(int i=0; i<dataTraining[1].size(); i++){
+		for(int i=0; i<dataEvaluation.size(); i++){
 				
-			Player p = dataTraining[1].get(i);
+			Player p = dataEvaluation.get(i);
 			
-			resultList = KNearestNeighbourAlgorithm.generateResultingDistance(dataTraining[0], p);
+			resultList = KNearestNeighbourAlgorithm.generateResultingDistance(dataTraining, p);
 			resultList = KNearestNeighbourAlgorithm.getNearestNeighbors(resultList);
 			int league = KNearestNeighbourAlgorithm.findMajority(resultList);
 			
