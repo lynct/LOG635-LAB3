@@ -6,7 +6,7 @@ import java.util.Set;
 
 public final class KNearestNeighbourAlgorithm {
 	
-	public static final int K = 35; 			//The number of nearest neighbors
+	public static final int K = 37; 			//The number of nearest neighbors
 	public static double averageDistance = 0;	//The average distance for all data
 	
 	ArrayList<Player> data;						//Training data used to find the player league

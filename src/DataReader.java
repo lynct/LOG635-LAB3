@@ -22,7 +22,7 @@ public final class DataReader {
 		int lineCounter = 0;
 		ArrayList<Player> data = new ArrayList<Player>();
 		//Used to determine if we add the player to the ArrayList or not. depending if we are reading a training file or not.
-		int validLine = isTraining ? 0 : (isEvaluation ? 1 : 0);
+		int validLine = isEvaluation ? 1 : (isTraining ? 0 : 1);
 		
 		try {
 	 
